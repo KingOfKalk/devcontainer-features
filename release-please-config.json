@@ -36,7 +36,6 @@
     },
     "src/openshell": {
       "component": "openshell",
-      "release-as": "1.0.0",
       "extra-files": [
         {
           "type": "json",
