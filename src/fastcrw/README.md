@@ -36,8 +36,10 @@ With JavaScript rendering (recommended):
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `version` | string | `latest` | crw release to install: `latest` or a version like `0.38.0`. A leading `v` is optional. |
+| `version` | string | `0.42.1` | crw release to install: `0.42.1`, `latest` or another version like `0.38.0`. A leading `v` is optional. |
 | `userAgent` | string | `""` | User-Agent crw sends. Sets `CRW_CRAWLER__USER_AGENT`, unless that variable is already set in the environment (your own value wins). Empty keeps the crw default. |
+
+- The default `version` is pinned to a tested upstream release. A weekly workflow proposes updates as PRs. Set `"version": "latest"` to always get the newest release.
 
 ### Notes on `userAgent`
 
@@ -123,4 +125,4 @@ Any crw config key can be set as `CRW_<SECTION>__<KEY>`; see crw's [`config.defa
 
 - Debian/Ubuntu based images. `curl`, `tar` and `ca-certificates` are installed with `apt-get` if missing.
 - `x86_64` and `aarch64`. The crw binaries are static musl builds.
-- Tested with crw `0.38.0`. Older versions install best effort.
+- Tested with crw 0.38.0 and later. Older versions install best effort.

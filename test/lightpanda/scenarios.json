@@ -30,5 +30,13 @@
         "userAgent": "My Agent/1.0 (it's mine)"
       }
     }
+  },
+  "latest": {
+    "image": "debian:trixie",
+    "features": {
+      "lightpanda": {
+        "version": "latest"
+      }
+    }
   }
 }

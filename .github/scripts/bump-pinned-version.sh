@@ -5,12 +5,17 @@
 # default, the proposals and the feature README. Used by
 # .github/workflows/pinned-versions.yml.
 #
+# Optional hook: .github/scripts/bump-hooks/<feature id>.sh <version> <tag>
+# runs after the update and may change more files below src/<feature id>/
+# (e.g. pinned checksums).
+#
 # Usage: bump-pinned-version.sh <feature id> <owner/repo> [--dry-run]
 #   --dry-run  update the files in the working tree and show the diff, but do
 #              not commit, push or open a PR.
 #
 # Needs: gh (GH_TOKEN), jq, git. GITHUB_REPOSITORY defaults to the origin
-# remote's repository.
+# remote's repository. UPSTREAM_NAME is the name used in the PR title
+# (default: the repository name).
 #
 # A PR for a version is opened only once: an existing PR for its branch
 # (open, merged or closed) skips that version, so closing the PR skips it.
@@ -22,7 +27,7 @@ dry_run="${3:-}"
 
 json="src/$feature/devcontainer-feature.json"
 readme="src/$feature/README.md"
-name="${upstream#*/}"
+name="${UPSTREAM_NAME:-${upstream#*/}}"
 repo="${GITHUB_REPOSITORY:-$(gh repo view --json nameWithOwner --jq .nameWithOwner)}"
 
 semver='^[0-9]+\.[0-9]+\.[0-9]+$'
@@ -66,7 +71,11 @@ mv "$tmp" "$json"
 if [ -f "$readme" ]; then
     sed -i "s/\`${current//./\\.}\`/\`$latest\`/g" "$readme"
 fi
-git --no-pager diff -- "$json" "$readme"
+hook=".github/scripts/bump-hooks/$feature.sh"
+if [ -x "$hook" ]; then
+    "$hook" "$latest" "$tag"
+fi
+git --no-pager diff -- "src/$feature"
 
 if [ "$dry_run" = "--dry-run" ]; then
     echo "$feature: dry run, nothing committed"
@@ -75,7 +84,7 @@ fi
 
 title="fix($feature): update $name to $latest"
 git switch -c "$branch"
-git add -- "$json" "$readme"
+git add -- "src/$feature"
 git -c user.name="github-actions[bot]" \
     -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
     commit -m "$title"

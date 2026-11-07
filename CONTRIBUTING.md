@@ -17,8 +17,10 @@ Devcontainer features, published to `ghcr.io/kingofkalk/devcontainer-features/<i
 
 - One tool per feature. Users combine features in `devcontainer.json` instead of features bundling each other.
 - Do not reference this collection's own features in `installsAfter`/`dependsOn`. The devcontainer CLI resolves them from GHCR, so tests fail until the referenced feature is published. Prefer runtime discovery (e.g. a binary on `PATH`) over install order.
-- Option names are camelCase. Every feature with an upstream binary has `version`, default `latest`. A leading `v` is optional.
-  - Exception: a young, fast-moving upstream (0.x) may pin the default (e.g. `openshell`). `latest` stays a proposal, and a scheduled workflow proposes updates of the pin.
+- Option names are camelCase. Every feature with an upstream binary has `version`. A leading `v` is optional.
+  - The default is pinned to a tested upstream release (`x.y.z`); `latest` stays a proposal. Reproducible builds, and CI does not break on new upstream releases.
+  - `.github/workflows/pinned-versions.yml` proposes updates of the pin (see Dependencies). Add every new feature with an upstream binary to its matrix.
+  - Upstream without checksums: pin the sha256 of known releases in the feature (e.g. `src/lightpanda/checksums.txt`) and add a bump hook that records them for new versions.
 - Telemetry is always off by default. Expose a `telemetry` boolean (default `false`) if the tool has any.
 - Download `latest` via `https://github.com/<owner>/<repo>/releases/latest/download/<asset>`, not the GitHub API (no rate limits).
 - Verify checksums whenever upstream publishes them.

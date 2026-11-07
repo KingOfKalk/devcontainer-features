@@ -16,11 +16,11 @@
     "version": {
       "type": "string",
       "proposals": [
-        "latest",
-        "0.38.0"
+        "0.42.1",
+        "latest"
       ],
-      "default": "latest",
-      "description": "crw release to install ('latest' or a version like '0.38.0'; a leading 'v' is optional)."
+      "default": "0.42.1",
+      "description": "crw release to install: '0.42.1', 'latest' or another version (a leading 'v' is optional)."
     },
     "userAgent": {
       "type": "string",

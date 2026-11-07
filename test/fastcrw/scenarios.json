@@ -29,5 +29,13 @@
       "lightpanda": {},
       "fastcrw": {}
     }
+  },
+  "latest": {
+    "image": "debian:trixie",
+    "features": {
+      "fastcrw": {
+        "version": "latest"
+      }
+    }
   }
 }

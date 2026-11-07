@@ -2,6 +2,8 @@
 # Installs Lightpanda (https://github.com/lightpanda-io/browser).
 # The real binary goes to /usr/local/lib/lightpanda, a wrapper on PATH applies
 # the telemetry and user agent options to every invocation.
+# Upstream publishes no checksums; checksums.txt pins the sha256 of known
+# releases and is checked when the installed version is listed there.
 set -euo pipefail
 
 VERSION="${VERSION:-latest}"
@@ -9,6 +11,7 @@ TELEMETRY="${TELEMETRY:-false}"
 USER_AGENT="${USERAGENT:-}"
 
 REPO_URL="https://github.com/lightpanda-io/browser"
+CHECKSUMS="$(cd "$(dirname "$0")" && pwd)/checksums.txt"
 LIB_DIR="/usr/local/lib/lightpanda"
 BIN="${LIB_DIR}/lightpanda"
 WRAPPER="/usr/local/bin/lightpanda"
@@ -65,6 +68,19 @@ download() {
         fi
     done
     err "no release asset ${asset} found for version '${VERSION}'"
+}
+
+# Verifies the downloaded binary against checksums.txt when the version is
+# listed there. latest, nightly and unlisted versions are not verified.
+verify() {
+    local file="$1" asset="$2" expected
+    expected="$(awk -v key="${VERSION#v}/${asset}" '$2 == key { print $1 }' "${CHECKSUMS}")"
+    if [ -z "${expected}" ]; then
+        echo "(!) lightpanda: no pinned checksum for version '${VERSION}', skipping checksum verification" >&2
+        return
+    fi
+    echo "${expected}  ${file}" | sha256sum -c --strict --quiet - || err "checksum mismatch for ${asset} ${VERSION#v}"
+    echo "lightpanda: verified sha256 of ${asset} ${VERSION#v}"
 }
 
 toggle_v() {
@@ -127,6 +143,7 @@ ensure_deps
 mkdir -p "${LIB_DIR}"
 tmp="$(mktemp)"
 download "lightpanda-${arch}-linux" "${tmp}"
+verify "${tmp}" "lightpanda-${arch}-linux"
 install -m 755 "${tmp}" "${BIN}"
 rm -f "${tmp}"
 write_wrapper

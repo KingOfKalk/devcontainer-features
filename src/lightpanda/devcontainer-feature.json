@@ -16,12 +16,12 @@
     "version": {
       "type": "string",
       "proposals": [
+        "1.0.3",
         "latest",
-        "nightly",
-        "1.0.1"
+        "nightly"
       ],
-      "default": "latest",
-      "description": "Lightpanda release tag to install ('latest', 'nightly' or a version like '1.0.1')."
+      "default": "1.0.3",
+      "description": "Lightpanda release to install: '1.0.3', 'latest', 'nightly' or another version (a leading 'v' is optional)."
     },
     "telemetry": {
       "type": "boolean",

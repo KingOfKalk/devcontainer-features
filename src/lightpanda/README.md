@@ -25,9 +25,11 @@ Pinned version, custom user agent:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `version` | string | `latest` | Release tag to install: `latest`, `nightly` or a version like `1.0.1`. A leading `v` is optional. |
+| `version` | string | `1.0.3` | Release to install: `1.0.3`, `latest`, `nightly` or another version like `1.0.1`. A leading `v` is optional. |
 | `telemetry` | boolean | `false` | Allow Lightpanda usage telemetry. When `false`, `LIGHTPANDA_DISABLE_TELEMETRY=true` is set for every invocation. |
 | `userAgent` | string | `""` | User-Agent for `serve`, `fetch`, `mcp`, `agent` and `run` (passed as `--user-agent`). Empty keeps the Lightpanda default (`Lightpanda/1.0`). Must not contain `Mozilla`; Lightpanda rejects that. |
+
+- The default `version` is pinned to a tested upstream release. A weekly workflow proposes updates as PRs. Set `"version": "latest"` to always get the newest release.
 
 ## How it works
 
@@ -63,5 +65,5 @@ lightpanda mcp
 
 ## Limitations
 
-- Lightpanda publishes no checksums, so the download cannot be verified.
+- Lightpanda publishes no checksums. The feature pins the sha256 of known releases in [`checksums.txt`](checksums.txt) (taken from the GitHub release asset digests) and verifies the download against it. `latest`, `nightly` and versions not listed there are installed unverified, with a warning.
 - Tested with Lightpanda `1.0.0` and later. Older tags may lack the `--user-agent` flag.

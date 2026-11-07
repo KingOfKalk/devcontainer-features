@@ -1,0 +1,8 @@
+# sha256 of the Lightpanda release binaries, verified by install.sh when the
+# installed version is listed. Format: <sha256>  <version>/<asset>.
+# New versions are added by .github/scripts/bump-hooks/lightpanda.sh (from
+# the GitHub release asset digests).
+392ba370c12d9f045c36c1477db8b3e2985942c89532732ef8d1610057db7d5c  1.0.1/lightpanda-aarch64-linux
+551747e35c51ba107b5d5277eca4b48e077b2a3b40f09a047bf6670448bc35fd  1.0.1/lightpanda-x86_64-linux
+20a5348bf3b6f71e41088223b188552ab550c1b9c9a9cbd8f099e6f7f3d78549  1.0.3/lightpanda-aarch64-linux
+53eb34da09159dcf8f04865dbfe3e63e9a652062684495aa7ced5ddd7c82e8b0  1.0.3/lightpanda-x86_64-linux
