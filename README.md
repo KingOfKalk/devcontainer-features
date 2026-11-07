@@ -16,13 +16,17 @@ Reference a feature in `devcontainer.json` by `ghcr.io/kingofkalk/devcontainer-f
 
 ```jsonc
 {
-    "image": "mcr.microsoft.com/devcontainers/base:bookworm",
-    "features": {
-        "ghcr.io/kingofkalk/devcontainer-features/lightpanda:1": {},
-        "ghcr.io/kingofkalk/devcontainer-features/fastcrw:1": {
-            "version": "latest"
-        }
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "features": {
+    "ghcr.io/kingofkalk/devcontainer-features/lightpanda:1": {},
+    "ghcr.io/kingofkalk/devcontainer-features/fastcrw:1": {
+      "version": "latest"
+    },
+    "ghcr.io/kingofkalk/devcontainer-features/home-persistence:1": {
+      "directories": "~/.claude",
+      "files": "~/.claude.json"
     }
+  }
 }
 ```
 
