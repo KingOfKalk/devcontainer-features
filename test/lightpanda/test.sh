@@ -1,5 +1,5 @@
 #!/bin/bash
-# Default options: latest release, telemetry off, no custom user agent.
+# Default options: pinned release (checksum verified), telemetry off, no custom user agent.
 set -e
 
 source dev-container-features-test-lib
