@@ -1,6 +1,6 @@
 {
   "id": "fastcrw",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "fastCRW",
   "description": "Installs the fastCRW (crw) web scraper CLI, including its embedded MCP stdio server (crw mcp).",
   "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/fastcrw",
