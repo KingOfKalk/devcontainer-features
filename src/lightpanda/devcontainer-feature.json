@@ -1,0 +1,37 @@
+{
+  "id": "lightpanda",
+  "version": "1.0.0",
+  "name": "Lightpanda",
+  "description": "Installs the Lightpanda headless browser (CDP server, fetch, MCP) with telemetry disabled by default.",
+  "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/lightpanda",
+  "licenseURL": "https://github.com/lightpanda-io/browser/blob/main/LICENSE",
+  "keywords": [
+    "lightpanda",
+    "browser",
+    "headless",
+    "cdp",
+    "scraping"
+  ],
+  "options": {
+    "version": {
+      "type": "string",
+      "proposals": [
+        "latest",
+        "nightly",
+        "1.0.1"
+      ],
+      "default": "latest",
+      "description": "Lightpanda release tag to install ('latest', 'nightly' or a version like '1.0.1')."
+    },
+    "telemetry": {
+      "type": "boolean",
+      "default": false,
+      "description": "Allow Lightpanda usage telemetry. When false, LIGHTPANDA_DISABLE_TELEMETRY is set for every invocation."
+    },
+    "userAgent": {
+      "type": "string",
+      "default": "",
+      "description": "User-Agent passed via --user-agent to serve/fetch/mcp/agent/run. Empty keeps the Lightpanda default. Must not contain 'Mozilla'."
+    }
+  }
+}

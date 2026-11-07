@@ -1,0 +1,33 @@
+{
+  "pinned": {
+    "image": "debian:trixie",
+    "features": {
+      "fastcrw": {
+        "version": "0.38.0"
+      }
+    }
+  },
+  "pinned_v_prefix": {
+    "image": "debian:trixie",
+    "features": {
+      "fastcrw": {
+        "version": "v0.38.0"
+      }
+    }
+  },
+  "user_agent": {
+    "image": "ubuntu:26.04",
+    "features": {
+      "fastcrw": {
+        "userAgent": "My Agent/1.0 (it's mine)"
+      }
+    }
+  },
+  "with_lightpanda": {
+    "image": "debian:trixie",
+    "features": {
+      "lightpanda": {},
+      "fastcrw": {}
+    }
+  }
+}

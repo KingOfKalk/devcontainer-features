@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  release-please:
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      actions: write
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - id: release
+        uses: googleapis/release-please-action@v5.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+      # Pushes and PRs made with GITHUB_TOKEN start no workflows, so release PRs
+      # get no CI run on their own. workflow_dispatch is the exception: start CI
+      # on each created or updated release branch. Its checks land on the PR's
+      # head commit and satisfy the required checks.
+      - name: Run CI on release PRs
+        if: steps.release.outputs.prs_created == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PRS: ${{ steps.release.outputs.prs }}
+        run: |
+          jq -r '.[].headBranchName' <<<"${PRS:-[]}" | while IFS= read -r branch; do
+            echo "Starting CI on $branch"
+            gh workflow run ci.yml --ref "$branch"
+          done
+
+  # Publishes every feature whose version is not yet on GHCR. Runs after
+  # release-please created a release, or manually via workflow_dispatch.
+  publish:
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Publish features to GHCR
+        uses: devcontainers/action@v1.4.4
+        with:
+          publish-features: "true"
+          base-path-to-features: "./src"
+          generate-docs: "false"
+          # release-please already tags releases; this job has no contents: write.
+          disable-repo-tagging: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

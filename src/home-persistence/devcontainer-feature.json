@@ -1,0 +1,37 @@
+{
+  "id": "home-persistence",
+  "version": "1.0.0",
+  "name": "Home Persistence",
+  "description": "Persists selected directories and files in the remote user's home across container rebuilds, using a named volume per dev container.",
+  "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/home-persistence",
+  "keywords": [
+    "persistence",
+    "volume",
+    "home",
+    "dotfiles",
+    "config"
+  ],
+  "options": {
+    "directories": {
+      "type": "string",
+      "default": "",
+      "description": "Directories under ~/ to persist, separated by ';' (e.g. '~/.claude;~/.vibe'). Empty persists nothing."
+    },
+    "files": {
+      "type": "string",
+      "default": "",
+      "description": "Files under ~/ to persist, separated by ';' (e.g. '~/.claude.json'). Empty persists nothing."
+    }
+  },
+  "mounts": [
+    {
+      "source": "${devcontainerId}-home-persistence",
+      "target": "/mnt/home-persistence",
+      "type": "volume"
+    }
+  ],
+  "postStartCommand": "/usr/local/share/home-persistence/start.sh",
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

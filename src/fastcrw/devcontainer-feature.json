@@ -1,0 +1,31 @@
+{
+  "id": "fastcrw",
+  "version": "1.0.0",
+  "name": "fastCRW",
+  "description": "Installs the fastCRW (crw) web scraper CLI, including its embedded MCP stdio server (crw mcp).",
+  "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/fastcrw",
+  "licenseURL": "https://github.com/fastcrw/crw/blob/main/LICENSE",
+  "keywords": [
+    "fastcrw",
+    "crw",
+    "scraper",
+    "crawler",
+    "mcp"
+  ],
+  "options": {
+    "version": {
+      "type": "string",
+      "proposals": [
+        "latest",
+        "0.38.0"
+      ],
+      "default": "latest",
+      "description": "crw release to install ('latest' or a version like '0.38.0'; a leading 'v' is optional)."
+    },
+    "userAgent": {
+      "type": "string",
+      "default": "",
+      "description": "User-Agent for crw (sets CRW_CRAWLER__USER_AGENT unless already set). Empty keeps the crw default."
+    }
+  }
+}

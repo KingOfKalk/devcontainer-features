@@ -1,0 +1,34 @@
+{
+  "pinned": {
+    "image": "debian:trixie",
+    "features": {
+      "lightpanda": {
+        "version": "1.0.1"
+      }
+    }
+  },
+  "pinned_v_prefix": {
+    "image": "debian:trixie",
+    "features": {
+      "lightpanda": {
+        "version": "v1.0.1"
+      }
+    }
+  },
+  "telemetry_on": {
+    "image": "debian:trixie",
+    "features": {
+      "lightpanda": {
+        "telemetry": true
+      }
+    }
+  },
+  "user_agent": {
+    "image": "ubuntu:26.04",
+    "features": {
+      "lightpanda": {
+        "userAgent": "My Agent/1.0 (it's mine)"
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "paths_root": {
+    "image": "debian:trixie",
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude;~/.vibe",
+        "files": "~/.claude.json"
+      }
+    }
+  },
+  "normalization": {
+    "image": "ubuntu:24.04",
+    "features": {
+      "home-persistence": {
+        "directories": " ~/.a/ ;; ~//b/./c ; ~/.a;",
+        "files": "~/.config/tool/settings.json ; ~/my file"
+      }
+    }
+  },
+  "existing_content": {
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude",
+        "files": "~/.claude.json"
+      }
+    }
+  },
+  "user_vscode": {
+    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude;~/.vibe",
+        "files": "~/.claude.json"
+      }
+    }
+  },
+  "user_node_mcr": {
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude;~/.vibe",
+        "files": "~/.claude.json"
+      }
+    }
+  },
+  "user_node_official": {
+    "image": "node:24",
+    "remoteUser": "node",
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude;~/.vibe",
+        "files": "~/.claude.json"
+      }
+    }
+  },
+  "alpine_root": {
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude;~/.vibe",
+        "files": "~/.claude.json"
+      }
+    }
+  },
+  "user_vscode_alpine": {
+    "image": "mcr.microsoft.com/devcontainers/base:alpine",
+    "features": {
+      "home-persistence": {
+        "directories": "~/.claude;~/.vibe",
+        "files": "~/.claude.json"
+      }
+    }
+  }
+}
