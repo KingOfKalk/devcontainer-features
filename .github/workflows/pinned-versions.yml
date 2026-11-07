@@ -1,0 +1,38 @@
+name: Pinned versions
+
+# Proposes updates of upstream versions that a feature pins as the default of
+# its "version" option (Dependabot cannot update devcontainer-feature.json).
+# One PR per new upstream release; see .github/scripts/bump-pinned-version.sh.
+
+on:
+  schedule:
+    # Mondays 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  update:
+    name: update (${{ matrix.feature }})
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - feature: openshell
+            upstream: NVIDIA/OpenShell
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          # The script pushes the update branch.
+          persist-credentials: true
+      - name: Propose update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FEATURE: ${{ matrix.feature }}
+          UPSTREAM: ${{ matrix.upstream }}
+        run: .github/scripts/bump-pinned-version.sh "$FEATURE" "$UPSTREAM"
