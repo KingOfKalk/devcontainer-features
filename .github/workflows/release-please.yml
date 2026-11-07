@@ -14,7 +14,6 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-      actions: write
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
@@ -24,21 +23,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
-      # Pushes and PRs made with GITHUB_TOKEN start no workflows, so release PRs
-      # get no CI run on their own. workflow_dispatch is the exception: start CI
-      # on each created or updated release branch. Its checks land on the PR's
-      # head commit and satisfy the required checks.
-      - name: Run CI on release PRs
-        if: steps.release.outputs.prs_created == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          PRS: ${{ steps.release.outputs.prs }}
-        run: |
-          jq -r '.[].headBranchName' <<<"${PRS:-[]}" | while IFS= read -r branch; do
-            echo "Starting CI on $branch"
-            gh workflow run ci.yml --ref "$branch"
-          done
 
   # Publishes every feature whose version is not yet on GHCR. Runs after
   # release-please created a release, or manually via workflow_dispatch.
