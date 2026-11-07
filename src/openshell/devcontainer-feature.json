@@ -1,0 +1,52 @@
+{
+  "id": "openshell",
+  "version": "1.0.0",
+  "name": "OpenShell",
+  "description": "Installs the NVIDIA OpenShell CLI and gateway and starts the gateway with the Docker compute driver at container start (no systemd). Telemetry is disabled by default.",
+  "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/openshell",
+  "licenseURL": "https://github.com/NVIDIA/OpenShell/blob/main/LICENSE",
+  "keywords": [
+    "openshell",
+    "nvidia",
+    "agents",
+    "sandbox",
+    "gateway"
+  ],
+  "options": {
+    "version": {
+      "type": "string",
+      "proposals": [
+        "0.1.7",
+        "latest",
+        "none"
+      ],
+      "default": "0.1.7",
+      "description": "OpenShell release to install ('0.1.7', 'latest' or another version; a leading 'v' is optional). 'none' installs only the start scripts."
+    },
+    "installGateway": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install openshell-gateway and start it at container start. Needs a Docker daemon (docker-in-docker)."
+    },
+    "telemetry": {
+      "type": "boolean",
+      "default": false,
+      "description": "Allow OpenShell gateway telemetry. When false, the gateway is started with OPENSHELL_TELEMETRY_ENABLED=false."
+    }
+  },
+  "containerEnv": {
+    "OPENSHELL_LOCAL_TLS_DIR": "/var/lib/openshell/tls"
+  },
+  "mounts": [
+    {
+      "source": "${devcontainerId}-openshell",
+      "target": "/var/lib/openshell",
+      "type": "volume"
+    }
+  ],
+  "entrypoint": "/usr/local/share/openshell/entrypoint.sh",
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/docker-in-docker"
+  ]
+}

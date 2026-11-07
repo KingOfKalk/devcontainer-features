@@ -1,5 +1,6 @@
 {
   "src/lightpanda": "1.0.0",
   "src/fastcrw": "1.0.0",
-  "src/home-persistence": "1.0.0"
+  "src/home-persistence": "1.0.0",
+  "src/openshell": "0.0.0"
 }

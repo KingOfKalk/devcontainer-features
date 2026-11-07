@@ -9,6 +9,7 @@ A collection of my personal [devcontainer features](https://containers.dev/imple
 | [fastcrw](src/fastcrw) | fastCRW (`crw`) web scraper CLI with embedded MCP stdio server | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=fastcrw-v&expanded=true) | [CHANGELOG](src/fastcrw/CHANGELOG.md) |
 | [home-persistence](src/home-persistence) | Persists selected directories and files in `~` across rebuilds (named volume per dev container) | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=home-persistence-v&expanded=true) | [CHANGELOG](src/home-persistence/CHANGELOG.md) |
 | [lightpanda](src/lightpanda) | Lightpanda headless browser (CDP, fetch, MCP), telemetry off by default | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=lightpanda-v&expanded=true) | [CHANGELOG](src/lightpanda/CHANGELOG.md) |
+| [openshell](src/openshell) | NVIDIA OpenShell CLI and gateway (Docker compute driver), telemetry off by default | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=openshell-v&expanded=true) | [CHANGELOG](src/openshell/CHANGELOG.md) |
 
 ## Usage
 
@@ -25,7 +26,9 @@ Reference a feature in `devcontainer.json` by `ghcr.io/kingofkalk/devcontainer-f
     "ghcr.io/kingofkalk/devcontainer-features/home-persistence:1": {
       "directories": "~/.claude",
       "files": "~/.claude.json"
-    }
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {},
+    "ghcr.io/kingofkalk/devcontainer-features/openshell:1": {}
   }
 }
 ```

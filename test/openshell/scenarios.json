@@ -1,0 +1,35 @@
+{
+  "version_none": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "openshell": {
+        "version": "none"
+      }
+    }
+  },
+  "version_none_with_dind": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "ghcr.io/devcontainers/features/docker-in-docker:4": {},
+      "openshell": {
+        "version": "none"
+      }
+    }
+  },
+  "telemetry_on": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "openshell": {
+        "version": "none",
+        "telemetry": true
+      }
+    }
+  },
+  "gateway_with_dind": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "ghcr.io/devcontainers/features/docker-in-docker:4": {},
+      "openshell": {}
+    }
+  }
+}
