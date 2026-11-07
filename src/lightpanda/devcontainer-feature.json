@@ -1,6 +1,6 @@
 {
   "id": "lightpanda",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "Lightpanda",
   "description": "Installs the Lightpanda headless browser (CDP server, fetch, MCP) with telemetry disabled by default.",
   "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/lightpanda",
