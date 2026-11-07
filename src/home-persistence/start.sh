@@ -4,6 +4,8 @@
 # warnings.
 #
 # - Fixes volume ownership (via sudo -n) when it belongs to another user.
+#   Normally entrypoint.sh already did that as root; this is the fallback for
+#   containers that do not run as root.
 # - Creates missing directories in the volume (e.g. paths added later).
 # - Restores links that were replaced by a regular file or directory, e.g. by
 #   an app saving with "write temp file + rename". The home copy is newer, so

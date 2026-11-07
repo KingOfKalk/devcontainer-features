@@ -62,12 +62,20 @@ The build fails with a `(!) home-persistence: ...` message for:
 - `~` is the home of the remote user (`remoteUser`, else `containerUser`, else the image default), e.g. `/home/vscode`, `/home/node` or `/root`.
 - Volume ownership: the volume directory is owned by the remote user in the image, and Docker copies that ownership into a new volume. `sudo` is not required.
 
+### Entrypoint
+
+`/usr/local/share/home-persistence/entrypoint.sh` runs on every container start, before the lifecycle hooks, as the container user (root unless `containerUser` says otherwise).
+
+- If the volume is not owned by the remote user's current UID/GID, it changes the owner (`chown -R`).
+- Why: on Linux, the devcontainer CLI changes the remote user's UID/GID to match the host user after the image was built (e.g. `1001` on GitHub runners), so the volume would still belong to the old UID. Switching `remoteUser` reuses the volume too.
+- Does nothing when the container does not run as root; the start hook falls back to `sudo` then.
+
 ### Start hook
 
 `/usr/local/share/home-persistence/start.sh` runs on every container start (`postStartCommand`) as the remote user. It never fails the start; problems are printed as `(!) home-persistence: ...` warnings.
 
 - Creates directories missing in the volume, e.g. after adding a path to `directories`.
-- Fixes ownership of the volume if it belongs to another user (e.g. after switching `remoteUser`), using `sudo -n` if available. Without `sudo`, it prints the `chown` command to run.
+- Fallback when the container does not run as root: fixes ownership of the volume if it belongs to another user, using `sudo -n` if available. Without `sudo`, it prints the `chown` command to run.
 - Restores a link that was replaced by a regular file or directory (see [atomic writes](#atomic-writes)).
 - Recreates a missing link and keeps the persisted copy. To really delete a persisted path, remove it from the volume: `rm -rf /mnt/home-persistence/<path>`.
 
@@ -90,7 +98,7 @@ Some apps save a file by writing a temp file and renaming it over the original. 
 - Only paths under `~/` are supported.
 - Option values must not contain `"`, `$`, `` ` `` or `\`. The devcontainer CLI passes option values to the installer unescaped, so these characters break the build or get expanded. Single quotes are fine.
 - Remove the volume to reset everything: `docker volume rm <devcontainerId>-home-persistence` (with the container removed).
-- Changing `remoteUser` to a user with a different UID needs `sudo` in the container for the ownership fix, or a manual `chown`.
+- With a non-root `containerUser`, a changed UID (other host UID, other `remoteUser`) needs `sudo` in the container for the ownership fix, or a manual `chown`.
 
 ## Supported platforms
 
