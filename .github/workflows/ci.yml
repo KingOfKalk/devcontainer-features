@@ -47,6 +47,7 @@ jobs:
       contents: read
     outputs:
       features: ${{ steps.list.outputs.features }}
+      host_features: ${{ steps.list.outputs.host_features }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -86,6 +87,12 @@ jobs:
           features=$(printf '%s\n' "$selected" | jq -Rsc 'split("\n") | map(select(length > 0))')
           echo "features=$features" >> "$GITHUB_OUTPUT"
           echo "Features to test: $features"
+          # Features with host-side tests (test/<id>/host/run.sh).
+          host_features=$(jq -r '.[]' <<<"$features" \
+            | while read -r f; do if [ -f "test/$f/host/run.sh" ]; then echo "$f"; fi; done \
+            | jq -Rsc 'split("\n") | map(select(length > 0))')
+          echo "host_features=$host_features" >> "$GITHUB_OUTPUT"
+          echo "Features with host tests: $host_features"
 
   default:
     name: default (${{ matrix.feature }}, ${{ matrix.image }}, ${{ endsWith(matrix.runner, '-arm') && 'arm64' || 'amd64' }})
@@ -170,40 +177,21 @@ jobs:
           done
           exit "$rc"
 
-  home-persistence-validation:
-    name: home-persistence validation (${{ endsWith(matrix.runner, '-arm') && 'arm64' || 'amd64' }})
+  # Host-side tests (Docker and the devcontainer CLI on the runner, e.g.
+  # expected build failures, rebuilds) of every changed feature that has
+  # test/<id>/host/run.sh. The script knows its own images and cases.
+  host:
+    name: host (${{ matrix.feature }}, ${{ endsWith(matrix.runner, '-arm') && 'arm64' || 'amd64' }})
     needs: changes
-    if: contains(fromJSON(needs.changes.outputs.features), 'home-persistence')
+    if: needs.changes.outputs.host_features != '[]'
     runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
     strategy:
       fail-fast: false
       matrix:
+        feature: ${{ fromJSON(needs.changes.outputs.host_features) }}
         runner: [ubuntu-26.04, ubuntu-26.04-arm]
-    steps:
-      - uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-      - name: Invalid options fail the build
-        run: test/home-persistence/host/validation.sh debian:trixie ubuntu:26.04 alpine:3.24
-
-  home-persistence-rebuild:
-    name: home-persistence rebuild (${{ matrix.target.image }}, ${{ endsWith(matrix.runner, '-arm') && 'arm64' || 'amd64' }})
-    needs: changes
-    if: contains(fromJSON(needs.changes.outputs.features), 'home-persistence')
-    runs-on: ${{ matrix.runner }}
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        runner: [ubuntu-26.04, ubuntu-26.04-arm]
-        target:
-          - { image: "mcr.microsoft.com/devcontainers/base:debian", user: vscode, remoteUser: "" }
-          - { image: "mcr.microsoft.com/devcontainers/javascript-node:24", user: node, remoteUser: "" }
-          - { image: "node:24", user: node, remoteUser: node }
-          - { image: "mcr.microsoft.com/devcontainers/base:alpine", user: vscode, remoteUser: "" }
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -213,15 +201,14 @@ jobs:
           node-version: 24.22.2
       - name: Install devcontainer CLI
         run: npm install -g @devcontainers/cli@0.90.0
-      - name: Data survives restart and rebuild
+      - name: Host tests
         env:
-          IMAGE: ${{ matrix.target.image }}
-          EXPECTED_USER: ${{ matrix.target.user }}
-          REMOTE_USER: ${{ matrix.target.remoteUser }}
-        run: test/home-persistence/host/rebuild.sh "$IMAGE" "$EXPECTED_USER" "$REMOTE_USER"
+          FEATURE: ${{ matrix.feature }}
+        run: |
+          "test/$FEATURE/host/run.sh"
 
   test:
-    needs: [changes, default, scenarios, unit, home-persistence-validation, home-persistence-rebuild]
+    needs: [changes, default, scenarios, unit, host]
     if: always()
     runs-on: ubuntu-26.04
     permissions: {}
