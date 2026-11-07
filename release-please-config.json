@@ -6,7 +6,6 @@
   "packages": {
     "src/lightpanda": {
       "component": "lightpanda",
-      "release-as": "1.0.0",
       "extra-files": [
         {
           "type": "json",
@@ -17,7 +16,6 @@
     },
     "src/fastcrw": {
       "component": "fastcrw",
-      "release-as": "1.0.0",
       "extra-files": [
         {
           "type": "json",
@@ -28,7 +26,6 @@
     },
     "src/home-persistence": {
       "component": "home-persistence",
-      "release-as": "1.0.0",
       "extra-files": [
         {
           "type": "json",
