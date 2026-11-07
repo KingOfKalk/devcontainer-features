@@ -53,6 +53,11 @@ case "${1:-}" in
         exit 0
         ;;
 esac
+if [ -e "$FAKE/slow_exec" ] && [ -z "${RENAMED:-}" ]; then
+    # Like the background subshell before its exec: for a moment the command
+    # line does not contain "openshell-gateway".
+    GW="$0" RENAMED=1 exec -a starting bash -c 'sleep 0.5; exec "$GW"'
+fi
 echo "starts" >>"$FAKE/gateway.starts"
 printf 'driver=%s xdg=%s tls=%s port=%s health=%s telemetry=%s\n' "${OPENSHELL_COMPUTE_DRIVER:-}" \
     "${XDG_STATE_HOME:-}" "${OPENSHELL_LOCAL_TLS_DIR:-}" "${OPENSHELL_SERVER_PORT:-}" \
@@ -175,6 +180,17 @@ assert_eq 0 "$?" "restart exits 0"
 assert_eq 2 "$(count "$FAKE/gateway.starts")" "gateway started again after restart"
 assert_eq 1 "$(count "$FAKE/certs.generated")" "existing certs kept after restart"
 assert_eq 2 "$(count "$FAKE/openshell.calls")" "registered again after restart"
+
+# 6b. regression: right after the start the gateway's command line does not
+#     contain its name yet; that must not count as "exited".
+kill_gateway
+rm -f "$FAKE/registered"
+touch "$FAKE/slow_exec"
+run_start
+assert_eq 0 "$?" "start while the gateway is still exec'ing exits 0"
+assert_not_contains "$(cat "$TMP/out.log")" "exited during startup" "no false 'exited' during exec"
+assert_contains "$(cat "$TMP/out.log")" "gateway ready and registered" "ready after slow exec"
+rm -f "$FAKE/slow_exec"
 
 # 7. gateway crashes on start: fail.
 kill_gateway

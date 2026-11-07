@@ -91,11 +91,19 @@ is_connected() {
     openshell status 2>/dev/null | grep -q 'Status: Connected'
 }
 
+# ensure_ready only runs right after this script started the gateway or after
+# pid_alive confirmed it, so checking the pid is enough. pid_alive's name check
+# would fail right after the start: until the background subshell has exec'd
+# openshell-gateway, its command line is still this script's.
+gateway_alive() {
+    kill -0 "$(head -n1 "$PID_FILE" 2>/dev/null)" 2>/dev/null
+}
+
 ensure_ready() {
     local start
     start="$(date +%s)"
     while true; do
-        if ! pid_alive "$PID_FILE" openshell-gateway; then
+        if ! gateway_alive; then
             openshell_err "gateway exited during startup, see $LOG_FILE"
             return 1
         fi
