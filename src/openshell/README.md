@@ -32,7 +32,7 @@ Latest release, CLI only:
 | `installGateway` | boolean | `true` | Install `openshell-gateway` and start it at container start. With `false` the gateway is not started (current releases still ship the binary inside the `openshell` package). |
 | `telemetry` | boolean | `false` | Allow OpenShell gateway telemetry. When `false`, the gateway runs with `OPENSHELL_TELEMETRY_ENABLED=false`. |
 
-- The default `version` is pinned, unlike the other features in this collection: OpenShell is young (0.1.x) and releases often. A scheduled workflow proposes updates of the pin.
+- The default `version` is pinned to a tested upstream release. A weekly workflow proposes updates as PRs. Set `"version": "latest"` to always get the newest release.
 
 ## How it works
 

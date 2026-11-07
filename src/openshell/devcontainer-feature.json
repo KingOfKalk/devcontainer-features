@@ -1,6 +1,6 @@
 {
   "id": "openshell",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "OpenShell",
   "description": "Installs the NVIDIA OpenShell CLI and gateway and starts the gateway with the Docker compute driver at container start (no systemd). Telemetry is disabled by default.",
   "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/openshell",
