@@ -170,9 +170,14 @@ else
 fi
 
 mkdir -p "$LIB_DIR"
-cp "$SCRIPT_DIR/start.sh" "$LIB_DIR/start.sh"
-chmod 0755 "$LIB_DIR/start.sh"
+for script in start.sh entrypoint.sh; do
+    cp "$SCRIPT_DIR/$script" "$LIB_DIR/$script"
+    chmod 0755 "$LIB_DIR/$script"
+done
 cp "$TMP/entries" "$LIB_DIR/entries"
 chmod 0644 "$LIB_DIR/entries"
-printf 'REMOTE_HOME=%s\n' "$(shell_quote "$REMOTE_HOME")" > "$LIB_DIR/config"
+{
+    printf 'REMOTE_USER=%s\n' "$(shell_quote "$REMOTE_USER")"
+    printf 'REMOTE_HOME=%s\n' "$(shell_quote "$REMOTE_HOME")"
+} > "$LIB_DIR/config"
 chmod 0644 "$LIB_DIR/config"

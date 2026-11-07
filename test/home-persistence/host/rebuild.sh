@@ -80,6 +80,22 @@ docker stop "$first" >/dev/null
 up
 step "restart: start hook restored the link" 'test -L ~/.claude.json && grep -q "\"v\":2" /mnt/home-persistence/.claude.json'
 
+# Simulate a changed UID/GID of the remote user (the devcontainer CLI matches
+# them to the host user on Linux): the volume belongs to another UID now.
+docker exec -u 0 "$first" chown -R 4242:4242 /mnt/home-persistence
+docker stop "$first" >/dev/null
+up
+if docker logs "$first" 2>&1 | grep -q 'home-persistence: changed owner of /mnt/home-persistence'; then
+    echo "ok   restart: entrypoint changed the volume owner"
+else
+    docker logs "$first" 2>&1 | tail -20
+    echo "FAIL restart: entrypoint did not change the volume owner"
+    exit 1
+fi
+step "restart: volume owned by the user and writable" '
+    test "$(stat -c %u:%g /mnt/home-persistence/.claude)" = "$(id -u):$(id -g)" &&
+    echo more >> ~/.claude/a'
+
 up --remove-existing-container --build-no-cache
 second="$(container)"
 if [ "$first" = "$second" ]; then

@@ -31,6 +31,7 @@
     }
   ],
   "postStartCommand": "/usr/local/share/home-persistence/start.sh",
+  "entrypoint": "/usr/local/share/home-persistence/entrypoint.sh",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
   ]
