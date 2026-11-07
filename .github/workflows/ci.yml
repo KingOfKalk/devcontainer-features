@@ -60,6 +60,9 @@ jobs:
                 src/*/*|test/*/*)
                   selected+="$(echo "$file" | cut -d/ -f2)"$'\n' ;;
                 docs/*) ;;
+                # Release metadata, no feature code. A release PR still
+                # selects its feature through src/<id>/CHANGELOG.md.
+                .release-please-manifest.json|release-please-config.json) ;;
                 */*) all_needed=true ;;
                 *.md) ;;
                 *) all_needed=true ;;
