@@ -1,0 +1,7 @@
+# actionlint configuration.
+# The ubuntu-26.04 runners are GitHub-hosted, but actionlint 1.7.12 does not
+# know their labels yet; declaring them here stops the "unknown label" error.
+self-hosted-runner:
+  labels:
+    - ubuntu-26.04
+    - ubuntu-26.04-arm

@@ -19,6 +19,13 @@ jobs:
         run: |
           find . -path ./.git -prune -o -name '*.json' -type f -print0 \
             | xargs -0 -n1 jq empty
+      # Image versions are bumped by hand (Dependabot does not see them).
+      - name: shellcheck
+        run: |
+          git ls-files -z '*.sh' \
+            | xargs -0 docker run --rm -v "$PWD:/mnt" -w /mnt koalaman/shellcheck:v0.11.0 -x -S warning
+      - name: actionlint
+        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12 -color
 
   validate:
     runs-on: ubuntu-26.04
