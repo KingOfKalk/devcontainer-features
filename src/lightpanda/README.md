@@ -25,7 +25,7 @@ Pinned version, custom user agent:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `version` | string | `1.0.3` | Release to install: `1.0.3`, `latest`, `nightly` or another version like `1.0.1`. A leading `v` is optional. |
+| `version` | string | `1.0.4` | Release to install: `1.0.4`, `latest`, `nightly` or another version like `1.0.1`. A leading `v` is optional. |
 | `telemetry` | boolean | `false` | Allow Lightpanda usage telemetry. When `false`, `LIGHTPANDA_DISABLE_TELEMETRY=true` is set for every invocation. |
 | `userAgent` | string | `""` | User-Agent for `serve`, `fetch`, `mcp`, `agent` and `run` (passed as `--user-agent`). Empty keeps the Lightpanda default (`Lightpanda/1.0`). Must not contain `Mozilla`; Lightpanda rejects that. |
 
