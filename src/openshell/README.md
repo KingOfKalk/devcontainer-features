@@ -28,7 +28,7 @@ Latest release, CLI only:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `version` | string | `0.1.7` | OpenShell release to install: a version like `0.1.7`, `latest`, or `none`. A leading `v` is optional. `none` installs only the start scripts, no OpenShell binaries. |
+| `version` | string | `0.1.8` | OpenShell release to install: a version like `0.1.8`, `latest`, or `none`. A leading `v` is optional. `none` installs only the start scripts, no OpenShell binaries. |
 | `installGateway` | boolean | `true` | Install `openshell-gateway` and start it at container start. With `false` the gateway is not started (current releases still ship the binary inside the `openshell` package). |
 | `telemetry` | boolean | `false` | Allow OpenShell gateway telemetry. When `false`, the gateway runs with `OPENSHELL_TELEMETRY_ENABLED=false`. |
 
