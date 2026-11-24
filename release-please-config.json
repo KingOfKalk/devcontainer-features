@@ -46,7 +46,6 @@
     },
     "src/gitlab-cli": {
       "component": "gitlab-cli",
-      "release-as": "1.0.0",
       "extra-files": [
         {
           "type": "json",
