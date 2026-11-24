@@ -16,12 +16,12 @@
     "version": {
       "type": "string",
       "proposals": [
-        "0.1.7",
+        "0.1.9",
         "latest",
         "none"
       ],
-      "default": "0.1.7",
-      "description": "OpenShell release to install ('0.1.7', 'latest' or another version; a leading 'v' is optional). 'none' installs only the start scripts."
+      "default": "0.1.9",
+      "description": "OpenShell release to install ('0.1.9', 'latest' or another version; a leading 'v' is optional). 'none' installs only the start scripts."
     },
     "installGateway": {
       "type": "boolean",
