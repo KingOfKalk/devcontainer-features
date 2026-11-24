@@ -3,5 +3,5 @@
   "src/fastcrw": "1.1.1",
   "src/home-persistence": "1.0.0",
   "src/openshell": "1.0.2",
-  "src/gitlab-cli": "0.0.0"
+  "src/gitlab-cli": "1.0.0"
 }
