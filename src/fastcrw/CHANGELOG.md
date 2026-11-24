@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/KingOfKalk/devcontainer-features/compare/fastcrw-v1.1.0...fastcrw-v1.1.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* **fastcrw:** update crw to 0.49.0 ([#38](https://github.com/KingOfKalk/devcontainer-features/issues/38)) ([28f661e](https://github.com/KingOfKalk/devcontainer-features/commit/28f661e7727221086cad2e22fee812ec6cce0a7f))
+* **fastcrw:** update crw to 0.49.1 ([#46](https://github.com/KingOfKalk/devcontainer-features/issues/46)) ([d2c651e](https://github.com/KingOfKalk/devcontainer-features/commit/d2c651ec6a4de5a6606ef031c0685cffaa0a1e89))
+
 ## [1.1.0](https://github.com/KingOfKalk/devcontainer-features/compare/fastcrw-v1.0.0...fastcrw-v1.1.0) (2026-11-07)
 
 
