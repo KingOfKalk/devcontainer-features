@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/KingOfKalk/devcontainer-features/compare/openshell-v1.0.1...openshell-v1.0.2) (2026-11-24)
+
+
+### Bug Fixes
+
+* **openshell:** update OpenShell to 0.1.9 ([#40](https://github.com/KingOfKalk/devcontainer-features/issues/40)) ([a6835d5](https://github.com/KingOfKalk/devcontainer-features/commit/a6835d51253451226f2b4ddd0f1aa7970a77f3c4))
+
 ## [1.0.1](https://github.com/KingOfKalk/devcontainer-features/compare/openshell-v1.0.0...openshell-v1.0.1) (2026-11-07)
 
 
