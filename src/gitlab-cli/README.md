@@ -27,7 +27,7 @@ Latest release:
 | `version` | string | `1.132.0` | Release to install: `1.132.0`, `latest` or another version like `1.131.0`. A leading `v` is optional. |
 | `telemetry` | boolean | `false` | Allow glab usage telemetry. When `false`, `GLAB_SEND_TELEMETRY=false` is set for every invocation unless you set the variable yourself. |
 
-- The default `version` is pinned to a tested upstream release and is bumped by hand for now; automatic update PRs are tracked in [#49](https://github.com/KingOfKalk/devcontainer-features/issues/49). Set `"version": "latest"` to always get the newest release.
+- The default `version` is pinned to a tested upstream release and is updated through pull requests proposed automatically for new upstream releases. Set `"version": "latest"` to always get the newest release.
 
 ## How it works
 
