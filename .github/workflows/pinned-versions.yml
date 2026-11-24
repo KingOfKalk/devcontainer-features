@@ -16,9 +16,9 @@ jobs:
   update:
     name: update (${{ matrix.feature }})
     runs-on: ubuntu-26.04
+    # All API calls and pushes use the App token.
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -33,13 +33,32 @@ jobs:
             upstream: fastcrw/crw
             name: crw
     steps:
-      - uses: actions/checkout@v7.0.1
+      # App token instead of GITHUB_TOKEN, so the PR triggers CI without an
+      # "Approve workflows to run" click.
+      - id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
+          client-id: ${{ secrets.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
           # The script pushes the update branch.
           persist-credentials: true
+      - name: Resolve the App's bot identity
+        id: bot
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          id="$(gh api "/users/${APP_SLUG}[bot]" --jq .id)"
+          echo "name=${APP_SLUG}[bot]" >>"$GITHUB_OUTPUT"
+          echo "email=${id}+${APP_SLUG}[bot]@users.noreply.github.com" >>"$GITHUB_OUTPUT"
       - name: Propose update
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          BOT_NAME: ${{ steps.bot.outputs.name }}
+          BOT_EMAIL: ${{ steps.bot.outputs.email }}
           FEATURE: ${{ matrix.feature }}
           UPSTREAM: ${{ matrix.upstream }}
           UPSTREAM_NAME: ${{ matrix.name }}

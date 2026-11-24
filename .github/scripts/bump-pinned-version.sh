@@ -15,7 +15,9 @@
 #
 # Needs: gh (GH_TOKEN), jq, git. GITHUB_REPOSITORY defaults to the origin
 # remote's repository. UPSTREAM_NAME is the name used in the PR title
-# (default: the repository name).
+# (default: the repository name). BOT_NAME and BOT_EMAIL set the commit
+# identity (the workflow passes the release App's bot user); without them the
+# default git identity is used.
 #
 # A PR for a version is opened only once: an existing PR for its branch
 # (open, merged or closed) skips that version, so closing the PR skips it.
@@ -85,17 +87,19 @@ fi
 title="fix($feature): update $name to $latest"
 git switch -c "$branch"
 git add -- "src/$feature"
-git -c user.name="github-actions[bot]" \
-    -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-    commit -m "$title"
+identity=()
+if [ -n "${BOT_NAME:-}" ] && [ -n "${BOT_EMAIL:-}" ]; then
+    identity=(-c "user.name=$BOT_NAME" -c "user.email=$BOT_EMAIL")
+fi
+git "${identity[@]}" commit -m "$title"
 git push origin "$branch"
 
 body="$(cat <<EOF
 Updates the pinned default of the \`version\` option of \`$feature\` from \`$current\` to \`$latest\`.
 
 - Release notes: https://github.com/$upstream/releases/tag/$tag
-- Opened by \`.github/workflows/pinned-versions.yml\`. CI needs one "Approve workflows to run" click, because the PR was created by \`github-actions[bot]\`.
+- Opened by \`.github/workflows/pinned-versions.yml\`.
 - Closing this PR skips $name $latest; the next newer release gets a new PR.
 EOF
 )"
-gh pr create --repo "$repo" --base main --head "$branch" --title "$title" --body "$body"
+gh pr create --repo "$repo" --base main --head "$branch" --label fix --title "$title" --body "$body"
