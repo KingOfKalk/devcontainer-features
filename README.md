@@ -7,6 +7,7 @@ A collection of my personal [devcontainer features](https://containers.dev/imple
 | Feature | Description | Releases | Changelog |
 |---------|-------------|----------|-----------|
 | [fastcrw](src/fastcrw) | fastCRW (`crw`) web scraper CLI with embedded MCP stdio server | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=fastcrw-v&expanded=true) | [CHANGELOG](src/fastcrw/CHANGELOG.md) |
+| [gitlab-cli](src/gitlab-cli) | GitLab CLI (`glab`), telemetry off by default | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=gitlab-cli-v&expanded=true) | [CHANGELOG](src/gitlab-cli/CHANGELOG.md) |
 | [home-persistence](src/home-persistence) | Persists selected directories and files in `~` across rebuilds (named volume per dev container) | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=home-persistence-v&expanded=true) | [CHANGELOG](src/home-persistence/CHANGELOG.md) |
 | [lightpanda](src/lightpanda) | Lightpanda headless browser (CDP, fetch, MCP), telemetry off by default | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=lightpanda-v&expanded=true) | [CHANGELOG](src/lightpanda/CHANGELOG.md) |
 | [openshell](src/openshell) | NVIDIA OpenShell CLI and gateway (Docker compute driver), telemetry off by default | [releases](https://github.com/KingOfKalk/devcontainer-features/releases?q=openshell-v&expanded=true) | [CHANGELOG](src/openshell/CHANGELOG.md) |
