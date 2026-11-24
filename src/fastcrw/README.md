@@ -36,7 +36,7 @@ With JavaScript rendering (recommended):
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `version` | string | `0.49.0` | crw release to install: `0.49.0`, `latest` or another version like `0.38.0`. A leading `v` is optional. |
+| `version` | string | `0.49.1` | crw release to install: `0.49.1`, `latest` or another version like `0.38.0`. A leading `v` is optional. |
 | `userAgent` | string | `""` | User-Agent crw sends. Sets `CRW_CRAWLER__USER_AGENT`, unless that variable is already set in the environment (your own value wins). Empty keeps the crw default. |
 
 - The default `version` is pinned to a tested upstream release. A weekly workflow proposes updates as PRs. Set `"version": "latest"` to always get the newest release.
