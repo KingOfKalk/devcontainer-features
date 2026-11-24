@@ -19,16 +19,16 @@ if [ "${VERSION:-latest}" = "latest" ]; then
     fi
 fi
 
-echo "Installing glab version ${VERSION} for ${ARCH}..."
+# Strip leading 'v' if present for the filename, but keep it for the URL if needed
+# GitLab release tags usually start with 'v' (e.g., v1.132.0)
+VERSION_CLEAN=${VERSION#v}
+echo "Installing glab version ${VERSION} (${VERSION_CLEAN}) for ${ARCH}..."
 
-# Construct download URL
-# GitLab CLI releases on GitLab usually follow: /gitlab-org/cli/-/releases
-# But often they are mirrored or linked to GitHub releases.
-# The official recommended way often points to GitHub releases for binaries.
-# According to glab docs, the binary is often available at:
-# https://github.com/gitlab-org/cli/releases/download/${VERSION}/glab_${VERSION}_linux_${ARCH}.tar.gz
-
-URL="https://github.com/gitlab-org/cli/releases/download/${VERSION}/glab_${VERSION}_linux_${ARCH}.tar.gz"
+# Construct download URL based on GitLab's permalink pattern:
+# https://gitlab.com/gitlab-org/cli/-/releases/v{version}/downloads/glab_{version}_linux_{arch}.tar.gz
+# Note: the URL uses the tag (with 'v'), but the filename uses the version without 'v' (often)
+# Let's verify the exact filename from the search results: glab_1.59.1_linux_amd64.tar.gz
+URL="https://gitlab.com/gitlab-org/cli/-/releases/${VERSION}/downloads/glab_${VERSION_CLEAN}_linux_${ARCH}.tar.gz"
 
 # Download and extract
 echo "Downloading from ${URL}..."
@@ -37,12 +37,13 @@ curl -sL "$URL" -o /tmp/glab.tar.gz
 echo "Extracting..."
 tar -xzf /tmp/glab.tar.gz -C /tmp
 
-# Move binary to /usr/local/bin
-mv /tmp/bin/glab /usr/local/bin/glab
-chmod +x /usr/local/bin/glab
+# Move binary to a configurable location or /usr/local/bin
+INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
+mv /tmp/bin/glab "${INSTALL_DIR}/glab"
+chmod +x "${INSTALL_DIR}/glab"
 
 # Verify installation
 echo "Verifying installation..."
-/usr/local/bin/glab --version
+"${INSTALL_DIR}/glab" --version
 
 echo "glab installed successfully."
