@@ -1,0 +1,40 @@
+{
+  "pinned": {
+    "image": "debian:trixie",
+    "features": {
+      "gitlab-cli": {
+        "version": "1.131.0"
+      }
+    }
+  },
+  "pinned_v_prefix": {
+    "image": "debian:trixie",
+    "features": {
+      "gitlab-cli": {
+        "version": "v1.131.0"
+      }
+    }
+  },
+  "telemetry_on": {
+    "image": "debian:trixie",
+    "features": {
+      "gitlab-cli": {
+        "telemetry": true
+      }
+    }
+  },
+  "user_env_wins": {
+    "image": "ubuntu:26.04",
+    "features": {
+      "gitlab-cli": {}
+    }
+  },
+  "latest": {
+    "image": "debian:trixie",
+    "features": {
+      "gitlab-cli": {
+        "version": "latest"
+      }
+    }
+  }
+}
