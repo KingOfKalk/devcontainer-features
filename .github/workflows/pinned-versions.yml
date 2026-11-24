@@ -32,6 +32,10 @@ jobs:
           - feature: fastcrw
             upstream: fastcrw/crw
             name: crw
+          # gitlab.com upstream: gitlab:<group>/<project>
+          - feature: gitlab-cli
+            upstream: gitlab:gitlab-org/cli
+            name: glab
     steps:
       # App token instead of GITHUB_TOKEN, so the PR triggers CI without an
       # "Approve workflows to run" click.
