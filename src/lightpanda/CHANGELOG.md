@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/KingOfKalk/devcontainer-features/compare/lightpanda-v1.1.0...lightpanda-v1.1.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* **lightpanda:** update Lightpanda to 1.0.5 ([#39](https://github.com/KingOfKalk/devcontainer-features/issues/39)) ([28e4039](https://github.com/KingOfKalk/devcontainer-features/commit/28e4039b1f47874a460503a7b66ce1510f114960))
+
 ## [1.1.0](https://github.com/KingOfKalk/devcontainer-features/compare/lightpanda-v1.0.0...lightpanda-v1.1.0) (2026-11-07)
 
 
