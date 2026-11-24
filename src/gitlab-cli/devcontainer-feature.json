@@ -2,11 +2,28 @@
   "id": "gitlab-cli",
   "version": "1.0.0",
   "name": "GitLab CLI",
+  "description": "Installs the GitLab CLI (glab) with telemetry disabled by default.",
+  "documentationURL": "https://github.com/KingOfKalk/devcontainer-features/tree/main/src/gitlab-cli",
+  "licenseURL": "https://gitlab.com/gitlab-org/cli/-/blob/main/LICENSE",
+  "keywords": [
+    "gitlab",
+    "glab",
+    "cli"
+  ],
   "options": {
     "version": {
       "type": "string",
-      "default": "latest",
-      "description": "GitLab CLI release to install"
+      "proposals": [
+        "1.132.0",
+        "latest"
+      ],
+      "default": "1.132.0",
+      "description": "glab release to install: '1.132.0', 'latest' or another version (a leading 'v' is optional)."
+    },
+    "telemetry": {
+      "type": "boolean",
+      "default": false,
+      "description": "Allow glab usage telemetry. When false, GLAB_SEND_TELEMETRY=false is set for every invocation unless you set it yourself."
     }
   }
 }
