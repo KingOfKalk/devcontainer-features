@@ -10,18 +10,26 @@ jobs:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-26.04
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
+      pull-requests: read
     steps:
       - id: metadata
-        uses: dependabot/fetch-metadata@v3.1.0
-      # Waits for the required checks; majors stay open for review. The merge
-      # uses GITHUB_TOKEN and so starts no release-please run, which is fine:
-      # Dependabot only touches .github/, which belongs to no feature.
-      - if: >-
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+      # App token instead of GITHUB_TOKEN, so the merge starts the
+      # release-please run.
+      - id: app-token
+        if: >-
           steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
           steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ secrets.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+      # Waits for the required checks; majors stay open for review. Dependabot
+      # only touches .github/, which belongs to no feature, so the release-please
+      # run opens no release PR.
+      - if: steps.app-token.outcome == 'success'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}

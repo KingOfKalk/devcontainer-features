@@ -10,17 +10,22 @@ permissions: {}
 jobs:
   release-please:
     runs-on: ubuntu-26.04
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
+    # All API calls use the App token, so the job needs no GITHUB_TOKEN rights.
+    permissions: {}
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
-      - id: release
-        uses: googleapis/release-please-action@v5.0.0
+      # App token instead of GITHUB_TOKEN, so release PRs trigger CI without an
+      # "Approve workflows to run" click.
+      - id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          client-id: ${{ secrets.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+      - id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -34,11 +39,11 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Publish features to GHCR
-        uses: devcontainers/action@v1.4.4
+        uses: devcontainers/action@bef2cf2d1a019b00b45e184f83035e01bd1972f3 # v1.4.4
         with:
           publish-features: "true"
           base-path-to-features: "./src"
